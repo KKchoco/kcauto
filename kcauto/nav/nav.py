@@ -14,7 +14,7 @@ class Navigate(object):
     """
 
     @classmethod
-    def to(cls, destination, max_sidestep=1):
+    def to(cls, destination, max_sidestep=0):
         """Method to call to detect the current location and move to the
         specified destination, with or without sidesteps.
 
@@ -75,7 +75,7 @@ class Navigate(object):
                 if destination in ('combat', 'pvp', 'expedition'):
                     current_location = current_location.navigate_to(
                         'sortie', False)
-                    kca_u.kca.sleep(1)
+                    kca_u.kca.sleep()
                 else:
                     if sidestep:
                         current_location = current_location.navigate_to(

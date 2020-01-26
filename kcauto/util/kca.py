@@ -508,7 +508,7 @@ class Kca(object):
                 the base sleep length. Defaults to None.
         """
         if base is None:
-            sleep(uniform(0.3, 0.7) + SLEEP_MODIFIER)
+            sleep(uniform(0.3, 0.4) + SLEEP_MODIFIER)
         else:
             flex = base if flex is None else flex
             sleep(uniform(base, base + flex) + SLEEP_MODIFIER)

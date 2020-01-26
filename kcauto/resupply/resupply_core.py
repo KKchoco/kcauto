@@ -32,7 +32,8 @@ class ResupplyCore(object):
         fleets = self._get_fleets_to_resupply()
         for fleet in fleets:
             Log.log_msg(f"Resupplying Fleet {fleet.fleet_id}.")
-            fleet.select()
+            if fleet.fleet_id != 1:
+                fleet.select()
             api_result = {}
             while KCSAPIEnum.RESUPPLY_ACTION.name not in api_result:
                 kca_u.kca.click_existing(

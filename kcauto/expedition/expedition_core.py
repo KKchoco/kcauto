@@ -123,7 +123,8 @@ class ExpeditionCore(CoreBase):
             Log.log_msg(
                 f"Sending fleet {fleet.fleet_id} to expedition "
                 f"{expedition.expedition}.")
-            self._select_world(expedition)
+            if fleet.fleet_id != 2:
+                self._select_world(expedition)
             self._select_expedition(expedition)
             if self._dispatch_expedition(fleet, expedition):
                 kca_u.kca.wait('lower', 'expedition|expedition_recall.png')

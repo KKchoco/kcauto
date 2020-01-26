@@ -45,13 +45,13 @@ class Kcauto(object):
         if sts.stats.rsc.ammo is None:
             Log.log_msg("kcauto is initializing.")
             if not exp.expedition.receive_expedition():
-                nav.navigate.to('refresh_home')
+               # nav.navigate.to('refresh_home')
                 sts.stats.set_print_loop_end_stats()
 
     def check_for_expedition(self):
         if not exp.expedition.receive_expedition():
             if exp.expedition.expect_returned_fleets():
-                nav.navigate.to('refresh_home')
+               # nav.navigate.to('refresh_home')
                 exp.expedition.receive_expedition()
                 sts.stats.set_print_loop_end_stats()
 
@@ -107,7 +107,7 @@ class Kcauto(object):
         if com.combat.time_to_sortie:
             self.find_kancolle()
             self.fast_check_for_expedition()
-            nav.navigate.to('refresh_home')
+           # nav.navigate.to('refresh_home')
             self.fast_check_for_expedition()
         else:
             return False

@@ -181,7 +181,8 @@ class CombatCore(CoreBase):
             Log.log_msg(f"Map {sortie_map.value} has been cleared.")
             self.enabled = False
             return False
-        self._select_world(sortie_map)
+        if sortie_map.world != 1:
+            self._select_world(sortie_map)
         time_to_rest = lbas.lbas.manage_lbas()
         if time_to_rest:
             Log.log_warn("LBAS is fatigued.")
@@ -246,7 +247,7 @@ class CombatCore(CoreBase):
     def _begin_sortie(self):
         if kca_u.kca.click_existing('lower_right', 'global|sortie_select.png'):
             kca_u.kca.r['top'].hover()
-            kca_u.sleep(2)
+            kca_u.kca.sleep()
 
             sortie_button_asset = 'combat|combat_start.png'
             if lbas.lbas.enabled and len(lbas.lbas.assignable_lbas_groups) > 0:
@@ -305,7 +306,7 @@ class CombatCore(CoreBase):
                     kca_u.kca.r['center'].click()
                     kca_u.kca.r['lbas'].hover()
                     kca_u.kca.wait('kc', 'combat|mvp_marker.png')
-                    kca_u.kca.sleep()
+                   # kca_u.kca.sleep()
                     fleet.visual_health_check(
                         kca_u.kca.r['check_damage_combat'])
                     Log.log_msg(fleet)
@@ -412,7 +413,7 @@ class CombatCore(CoreBase):
                     kca_u.kca.r['top'].hover()
                     Log.log_msg(f"Action at Node {self.current_node}")
                     return True
-            kca_u.kca.sleep(1)
+            kca_u.kca.sleep()
 
     def _resolve_formation_prompt(self):
         Log.log_debug("Resolving formation prompt.")

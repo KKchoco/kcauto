@@ -131,7 +131,7 @@ class CombatCore(CoreBase):
                         rep.repair.soonest_complete_time)
                 return False
         for ship_idx, ship in enumerate(flt.fleets.combat_ships):
-            if BATTLES_BETWEEN_RESUPPLIES >= 2 and ship.fuel != 0 or ship.ammo != 0 and sts.stats.combat.combat_sorties % BATTLES_BETWEEN_RESUPPLIES:
+            if BATTLES_BETWEEN_RESUPPLIES >= 2 and ship.fuel == 0 or ship.ammo == 0 or sts.stats.combat.combat_sorties % BATTLES_BETWEEN_RESUPPLIES == 0:
                 if fleet.needs_resupply:
                     Log.log_warn("Combat fleet needs resupply.")
                     return False

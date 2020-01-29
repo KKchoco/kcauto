@@ -22,7 +22,6 @@ class ResupplyCore(object):
         if len(fleets) == 1:
             if fleets[0] == 1 and BATTLES_BETWEEN_RESUPPLIES >= 2:
                 for ship_idx, ship in enumerate(flt.fleets.combat_ships):
-                    Log.log_msg(f"fuel {ship.fuel} ammo {ship.ammo}")
                     if ship.fuel == 0 or ship.ammo == 0 or sts.stats.combat.combat_sorties % BATTLES_BETWEEN_RESUPPLIES == 0:
                         Log.log_msg(f"Fleet {fleets[0]} needs resupply.")
                         return True

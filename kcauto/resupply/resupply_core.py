@@ -5,7 +5,7 @@ import stats.stats_core as sts
 import util.kca as kca_u
 from kca_enums.kcsapi_paths import KCSAPIEnum
 from util.logger import Log
-
+from constants import BATTLES_BETWEEN_RESUPPLIES
 
 class ResupplyCore(object):
     exp_provisional_enabled = None
@@ -20,8 +20,15 @@ class ResupplyCore(object):
     def need_to_resupply(self):
         fleets = [fleet.fleet_id for fleet in self._get_fleets_to_resupply()]
         if len(fleets) == 1:
-            Log.log_msg(f"Fleet {fleets[0]} needs resupply.")
-            return True
+            if fleets[0] == 1 and BATTLES_BETWEEN_RESUPPLIES >= 2:
+                for ship_idx, ship in enumerate(flt.fleets.combat_ships):
+                    Log.log_msg(f"fuel {ship.fuel} ammo {ship.ammo}")
+                    if ship.fuel == 0 or ship.ammo == 0 or sts.stats.combat.combat_sorties % BATTLES_BETWEEN_RESUPPLIES == 0:
+                        Log.log_msg(f"Fleet {fleets[0]} needs resupply.")
+                        return True
+            else:
+                Log.log_msg(f"Fleet {fleets[0]} needs resupply.")
+                return True
         elif len(fleets) > 1:
             display_text = kca_u.kca.readable_list_join(fleets)
             Log.log_msg(f"Fleets {display_text} need resupply.")

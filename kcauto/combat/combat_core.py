@@ -23,7 +23,7 @@ from kca_enums.kcsapi_paths import KCSAPIEnum
 from kca_enums.maps import MapEnum
 from kca_enums.nodes import NodeEnum
 from kca_enums.ship_types import ShipTypeEnum
-
+from constants import BATTLES_BETWEEN_RESUPPLIES
 
 class CombatCore(CoreBase):
     COMBAT_APIS = {
@@ -130,9 +130,11 @@ class CombatCore(CoreBase):
                     self.set_next_sortie_time(
                         rep.repair.soonest_complete_time)
                 return False
-            if fleet.needs_resupply:
-                Log.log_warn("Combat fleet needs resupply.")
-                return False
+        for ship_idx, ship in enumerate(flt.fleets.combat_ships):
+            if BATTLES_BETWEEN_RESUPPLIES >= 2 and ship.fuel != 0 or ship.ammo != 0 and sts.stats.combat.combat_sorties % BATTLES_BETWEEN_RESUPPLIES:
+                if fleet.needs_resupply:
+                    Log.log_warn("Combat fleet needs resupply.")
+                    return False
         return True
 
     def set_next_sortie_time(self, value=timedelta(seconds=0), override=False):
@@ -321,7 +323,7 @@ class CombatCore(CoreBase):
                             'kc', 'combat|combat_retreat.png')):
                     Log.log_debug("Check for Port API.")
                     api_result = api.api.update_from_api(
-                        {KCSAPIEnum.PORT}, need_all=False, timeout=3)
+                        {KCSAPIEnum.PORT}, need_all=False, timeout=1)
                     if KCSAPIEnum.PORT.name in api_result:
                         kca_u.kca.wait('left', 'nav|home_menu_sortie.png')
                         Log.log_debug("Sortie ended after battle.")
@@ -351,7 +353,7 @@ class CombatCore(CoreBase):
 
             if kca_u.kca.exists('left', 'nav|home_menu_sortie.png'):
                 api.api.update_from_api(
-                    {KCSAPIEnum.PORT}, need_all=False, timeout=2)
+                    {KCSAPIEnum.PORT}, need_all=False, timeout=1)
                 Log.log_debug("Sortie ended after resource or flagship end.")
                 conducting_sortie = False
 

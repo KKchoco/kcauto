@@ -1,8 +1,9 @@
 # kcauto
 
 this fork is supposed to be used only for one-battle sorties such as 1-3, 2-2B, 5-2C farming
-it has way lower pauses and less checks in order to make it much faster to have higher SPH and **[CAN CAUSE SHIPS SINK]** if there more than one battle on sortie\config
+it has way lower pauses and less checks in order to make it much faster to have higher SPH (20-40% higher) and [**CAN CAUSE SHIPS TO SINK**] if there more than one battle on sortie\config
 
+i've been using it privately since v8.0.0rc1 and did same tricks before v8.0.0rc1 on java version. got 201 error just once since then, so its kinda safe to use i guess
 
 **kcauto** is a robust Kantai Collection automation tool. kcauto and it's predecessor [kancolle-auto](https://github.com/mrmin123/kancolle-auto) are proof-of-concepts in using vision-based automation to play Kantai Collection. They are exercises in automating large, convoluted, and complex game-playing logic. kcauto is written in Python 3.7.
 

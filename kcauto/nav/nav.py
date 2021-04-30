@@ -186,7 +186,7 @@ class NavigateList(object):
                 else:
                     cls._change_page(region, 'next', cls.OFFSET[offset_mode])
                     current_page += 5
-        kca_u.kca.sleep(0.5)
+        kca_u.kca.sleep(0.2)
         return current_page
 
     @staticmethod
@@ -222,7 +222,7 @@ class NavigateList(object):
             y_start = kca_u.kca.game_y + 675 + offset[1]
 
             Region(x_start, y_start, 16, 15).click()
-        kca_u.kca.sleep(0.5)
+        kca_u.kca.sleep(0.2)
 
 
 navigate = Navigate()

@@ -54,13 +54,13 @@ class ExpeditionCore(CoreBase):
             kca_u.kca.r['shipgirl'].click()
             api.api.update_from_api({KCSAPIEnum.PORT})
             sts.stats.expedition.expeditions_received += 1
-            kca_u.kca.wait('lower_right_corner', 'global|next.png', 20)
+            kca_u.kca.wait('lower_right_corner', 'global|next.png', 15)
             while kca_u.kca.exists('lower_right_corner', 'global|next.png'):
-                kca_u.kca.sleep()
+                #kca_u.kca.sleep()
                 kca_u.kca.r['shipgirl'].click()
                 kca_u.kca.r['top'].hover()
                 received_expeditions = True
-                kca_u.kca.sleep()
+                #kca_u.kca.sleep()
         return received_expeditions
 
     def expect_returned_fleets(self):
@@ -128,7 +128,7 @@ class ExpeditionCore(CoreBase):
             self._select_expedition(expedition)
             if self._dispatch_expedition(fleet, expedition):
                 kca_u.kca.wait('lower', 'expedition|expedition_recall.png')
-                kca_u.kca.sleep(3)
+                kca_u.kca.sleep(2)
             else:
                 kca_u.kca.click_existing('lower', 'expedition|e_world_1.png')
                 kca_u.kca.r['top'].hover()

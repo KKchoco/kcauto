@@ -75,6 +75,7 @@ class CombatCore(CoreBase):
         self.available_maps = {}
         event_map_id_start = None
         for map_data in data:
+            #Log.log_debug(map_data['api_id'])
             api_id = map_data['api_id']
             if api_id < 400:
                 map_enum = MapEnum(f"{str(api_id)[0]}-{str(api_id)[1]}")
@@ -205,10 +206,10 @@ class CombatCore(CoreBase):
         return False
 
     def _select_world(self, sortie_map):
-        kca_u.kca.sleep()
+        #kca_u.kca.sleep()
         kca_u.kca.click_existing(
             'lower', f'combat|c_world_{sortie_map.world}.png')
-        kca_u.kca.sleep()
+        #kca_u.kca.sleep()
 
     def _select_map(self, sortie_map):
         if sortie_map.world == 'E':
@@ -249,7 +250,7 @@ class CombatCore(CoreBase):
     def _begin_sortie(self):
         if kca_u.kca.click_existing('lower_right', 'global|sortie_select.png'):
             kca_u.kca.r['top'].hover()
-            kca_u.kca.sleep()
+            #kca_u.kca.sleep()
 
             sortie_button_asset = 'combat|combat_start.png'
             if lbas.lbas.enabled and len(lbas.lbas.assignable_lbas_groups) > 0:
@@ -308,7 +309,7 @@ class CombatCore(CoreBase):
                     kca_u.kca.r['center'].click()
                     kca_u.kca.r['lbas'].hover()
                     kca_u.kca.wait('kc', 'combat|mvp_marker.png')
-                   # kca_u.kca.sleep()
+                    kca_u.kca.sleep()
                     fleet.visual_health_check(
                         kca_u.kca.r['check_damage_combat'])
                     Log.log_msg(fleet)
@@ -323,7 +324,7 @@ class CombatCore(CoreBase):
                             'kc', 'combat|combat_retreat.png')):
                     Log.log_debug("Check for Port API.")
                     api_result = api.api.update_from_api(
-                        {KCSAPIEnum.PORT}, need_all=False, timeout=1)
+                        {KCSAPIEnum.PORT}, need_all=False, timeout=0.05)
                     if KCSAPIEnum.PORT.name in api_result:
                         kca_u.kca.wait('left', 'nav|home_menu_sortie.png')
                         Log.log_debug("Sortie ended after battle.")
@@ -353,14 +354,14 @@ class CombatCore(CoreBase):
 
             if kca_u.kca.exists('left', 'nav|home_menu_sortie.png'):
                 api.api.update_from_api(
-                    {KCSAPIEnum.PORT}, need_all=False, timeout=1)
+                    {KCSAPIEnum.PORT}, need_all=False, timeout=0.05)
                 Log.log_debug("Sortie ended after resource or flagship end.")
                 conducting_sortie = False
 
     def _click_until_port(self):
         while not kca_u.kca.exists('left', 'nav|home_menu_sortie.png'):
             api_result = api.api.update_from_api(
-                {KCSAPIEnum.PORT}, need_all=False, timeout=3)
+                {KCSAPIEnum.PORT}, need_all=False, timeout=0.1)
             if KCSAPIEnum.PORT.name not in api_result:
                 kca_u.kca.r['combat_click'].click()
 
@@ -394,7 +395,7 @@ class CombatCore(CoreBase):
                     Log.log_msg(f"Selecting node {next_node.value}")
                     self.map_data.nodes[next_node.value].select()
                     api_result = api.api.update_from_api(
-                        {KCSAPIEnum.SORTIE_NEXT}, need_all=False, timeout=4)
+                        {KCSAPIEnum.SORTIE_NEXT}, need_all=False, timeout=0.1)
                     if KCSAPIEnum.SORTIE_NEXT.name in api_result:
                         self._find_next_node(
                             api_result[KCSAPIEnum.SORTIE_NEXT.name][0])
@@ -404,7 +405,7 @@ class CombatCore(CoreBase):
             else:
                 Log.log_debug("Wait for combat API.")
                 api_result = api.api.update_from_api(
-                    self.COMBAT_APIS, need_all=False, timeout=1)
+                    self.COMBAT_APIS, need_all=False, timeout=0.05)
                 if KCSAPIEnum.SORTIE_NEXT.name in api_result:
                     self._find_next_node(
                         api_result[KCSAPIEnum.SORTIE_NEXT.name][0])

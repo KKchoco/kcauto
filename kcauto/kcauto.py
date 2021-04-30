@@ -108,7 +108,7 @@ class Kcauto(object):
             self.find_kancolle()
             self.fast_check_for_expedition()
            # nav.navigate.to('refresh_home')
-            self.fast_check_for_expedition()
+           # self.fast_check_for_expedition()
         else:
             return False
 

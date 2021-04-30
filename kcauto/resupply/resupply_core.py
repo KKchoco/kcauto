@@ -28,7 +28,7 @@ class ResupplyCore(object):
             else:
                 Log.log_msg(f"Fleet {fleets[0]} needs resupply.")
                 return True
-        elif len(fleets) > 1:
+        elif len(fleets) > 3:
             display_text = kca_u.kca.readable_list_join(fleets)
             Log.log_msg(f"Fleets {display_text} need resupply.")
             return True
@@ -45,7 +45,7 @@ class ResupplyCore(object):
                 kca_u.kca.click_existing(
                     'upper_left', 'resupply|resupply_all.png')
                 api_result = api.api.update_from_api(
-                    {KCSAPIEnum.RESUPPLY_ACTION}, need_all=False, timeout=1)
+                    {KCSAPIEnum.RESUPPLY_ACTION}, need_all=False, timeout=0.1)
                 kca_u.kca.sleep()
             sts.stats.resupply.resupplies_done += 1
 

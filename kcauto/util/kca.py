@@ -2,8 +2,11 @@ import os
 import PyChromeDevTools
 from datetime import datetime, timedelta
 from pyvisauto import Region, FindFailed, ImageMatch
-from random import randint, uniform
+from random import randint, uniform, randrange
 from time import sleep
+
+import ctypes
+import ctypes.wintypes
 
 import api.api_core as api
 import args.args_core as arg
@@ -59,13 +62,15 @@ class Kca(object):
         api_tab = None
         api_tab_id = None
         for n, tab in enumerate(self.visual_hook.tabs):
+            Log.log_debug(f"test ({tab}:{API_URL})")
             if tab['url'] == VISUAL_URL:
                 visual_tab = n
                 visual_tab_id = tab['id']
             if API_URL in tab['url']:
                 api_tab = n
                 api_tab_id = tab['id']
-
+        Log.log_debug(f"test ({visual_tab}:{visual_tab_id})")
+        Log.log_debug(f"test ({api_tab}:{api_tab_id})")
         if visual_tab_id is None or api_tab_id is None:
             Log.log_error(
                 "No Kantai Collection tab found in Chrome. Shutting down "
@@ -417,6 +422,7 @@ class Kca(object):
             bool: True when asset no longer exists on-screen.
         """
         r = self._get_region(region)
+        Log.log_debug("Wait vanish " + str(region))
         return r.wait_vanish(self._create_asset_path(asset), wait, similiarity)
 
     def hover(self, region):
@@ -429,8 +435,13 @@ class Kca(object):
         """
         if (cfg.config.general.interaction_mode
                 is InteractionModeEnum.DIRECT_CONTROL):
-            r = self._get_region(region)
-            r.hover()
+            #r = self._get_region(region)
+            #mspeed = ImageMatch.MOUSE_MOVE_SPEED
+            #ImageMatch.MOUSE_MOVE_SPEED = 0.0
+            Log.log_debug("Hover " + str(region))
+            ctypes.windll.user32.SetCursorPos(randrange(self.game_x + 400, self.game_x + 800),randrange(self.game_y + 12, self.game_y + 30))
+            #r.hover()
+            #ImageMatch.MOUSE_MOVE_SPEED = mspeed
 
     def click(self, region, pad=(0, 0, 0, 0)):
         """Helper method that clicks a passed in region. The pad parameter
@@ -443,6 +454,7 @@ class Kca(object):
                 (0, 0, 0, 0).
         """
         r = self._get_region(region)
+        Log.log_debug("Click " + str(region))
         if (cfg.config.general.interaction_mode
                 is InteractionModeEnum.DIRECT_CONTROL):
             r.click(pad=pad)
@@ -471,10 +483,11 @@ class Kca(object):
             bool: True if the region was found and clicked; False otherwise.
         """
         r = self._get_region(region)
+        Log.log_debug("Click existing " + str(region))
         try:
             match = r.find(self._create_asset_path(asset), similarity, cached)
             self.click(match, pad=pad)
-            self.sleep()
+            #self.sleep()
             return True
         except FindFailed:
             return False
@@ -492,6 +505,7 @@ class Kca(object):
                 DEFAULT.
         """
         r = self._get_region(region)
+        Log.log_debug("Wait and click " + str(region))
         match = r.wait(self._create_asset_path(asset), wait, similarity)
         self.click(match)
 
@@ -508,7 +522,7 @@ class Kca(object):
                 the base sleep length. Defaults to None.
         """
         if base is None:
-            sleep(uniform(0.3, 0.4) + SLEEP_MODIFIER)
+            sleep(uniform(0.2, 0.3) + SLEEP_MODIFIER)
         else:
             flex = base if flex is None else flex
             sleep(uniform(base, base + flex) + SLEEP_MODIFIER)

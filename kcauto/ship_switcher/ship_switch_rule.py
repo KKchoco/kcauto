@@ -126,7 +126,7 @@ class ShipSwitchRule(object):
                         and not ship.locked):
                     continue
                 elif (
-                        criterion[8] is ShipSwitcherCriteriaSlot8Enum.LOCKED
+                        criterion[8] is ShipSwitcherCriteriaSlot8Enum.UNLOCKED
                         and ship.locked):
                     continue
             if criterion[9]:

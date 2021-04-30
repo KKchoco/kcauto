@@ -2,7 +2,7 @@ from pyvisauto import ImageMatch
 
 SLEEP_MODIFIER = 0
 LOOP_BREAK_SECONDS = 0
-ImageMatch.SCAN_RATE = 0.03
+ImageMatch.SCAN_RATE = 0.016
 ImageMatch.MOUSE_MOVE_SPEED = 0.105
 BATTLES_BETWEEN_RESUPPLIES = 1
 
